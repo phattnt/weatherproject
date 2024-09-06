@@ -38,11 +38,9 @@ export default function Search() {
           <CommandInput placeholder="The city, nation ..." />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
-            <CommandGroup heading="Suggestions">
-            <CommandItem>Calendar</CommandItem>
-      <CommandItem>Search Emoji</CommandItem>
-      <CommandItem>Calculator</CommandItem>
-            </CommandGroup>
+            <ul>
+              
+            </ul>
           </CommandList>
         </Command>
       </DialogContent>

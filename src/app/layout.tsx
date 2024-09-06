@@ -19,13 +19,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
+          attribute="class"
+          defaultTheme="dark"
+          disableTransitionOnChange={false}
+        >
+          <div className="">{children}</div>
+        </ThemeProvider>
       </body>
     </html>
   );
