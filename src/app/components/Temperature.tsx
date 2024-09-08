@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../context/globalContext";
 import { kelvinToCelsius, windspeedchange } from "@/lib/misc";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Moment } from "moment";
 import {
   drizzleIcon,
   rain,
@@ -20,8 +19,11 @@ function Temperature() {
   const { main, timezone, name, weather, wind } = forecast;
 
   if (!forecast || !weather) {
-    return <Skeleton className="h-[10rem] w-full rounded-xl dark:bg-[#484c53] bg-[#f5d8c5] " />;
+    return (
+      <Skeleton className="h-[10rem] w-full rounded-xl dark:bg-[#484c53] bg-[#f5d8c5] " />
+    );
   }
+
   const temp = kelvinToCelsius(main?.temp);
   const windspeed = windspeedchange(wind?.speed);
   const [localtime, setLocalTime] = useState<string>("");
@@ -51,7 +53,8 @@ function Temperature() {
       setLocalTime(formatedTime);
       setCurrentDay(day);
     }, 1000);
-  }, []);
+    return () => clearInterval(interval);
+  }, [timezone]);
   return (
     <div className="flex w-full flex-col h-full justify-between">
       <div className="flex flex-col gap-1">
@@ -60,7 +63,7 @@ function Temperature() {
           <span className="font-medium">{localtime}</span>
         </p>
         <p className="flex gap-2 font-bold first-letter:mt-4">
-          <span>{name}</span>
+          <span>{name === "Ho Chi Minh City" ? "Sai Gon" : name}</span>
           <span>{navigation}</span>
         </p>
         <div className="flex flex-col">

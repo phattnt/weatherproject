@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
     const res = await axios.get(url);
 
     return NextResponse.json(res.data);
+
   } catch (error) {
     console.log("Error fetching geocoded data");
     return new Response("Error fetching geocoded data", { status: 500 });
