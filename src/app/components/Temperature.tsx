@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../context/globalContext";
-import { kelvinToCelsius, windspeedchange } from "@/lib/misc";
+import { kelvinToCelsius, windspeedchange, kelvinToF } from "@/lib/misc";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   drizzleIcon,
@@ -15,16 +15,22 @@ import { WindIcon } from "lucide-react";
 import moment from "moment";
 
 function Temperature() {
-  const { forecast } = useGlobalContext();
+  const { forecast, changedegree } = useGlobalContext();
   const { main, timezone, name, weather, wind } = forecast;
-
+ 
   if (!forecast || !weather) {
     return (
       <Skeleton className="h-[10rem] w-full rounded-xl dark:bg-[#484c53] bg-[#f5d8c5] " />
     );
   }
 
-  const temp = kelvinToCelsius(main?.temp);
+  if(changedegree === false){
+    var temp = kelvinToCelsius(main?.temp);
+  }
+  else {
+    var temp = kelvinToF(main?.temp);
+  }
+
   const windspeed = windspeedchange(wind?.speed);
   const [localtime, setLocalTime] = useState<string>("");
   const [currentDay, setCurrentDay] = useState<string>("");
@@ -74,7 +80,7 @@ function Temperature() {
         </div>
       </div>
       <p className="text-6xl text-center py-10">
-        <span>{temp}°C</span>
+        <span>{temp}°</span>
       </p>
       <div className="flex flex-col gap-3">
         <p className="flex justify-between">

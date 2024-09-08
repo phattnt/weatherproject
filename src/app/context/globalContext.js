@@ -14,7 +14,7 @@ export const GlobalContextProvider = ({ children }) => {
   const [activeCityCoords, setActiveCityCoords] = useState([
     51.5073219, -0.1276474,
   ]);
-
+  const [changedegree, setChangedegree] = useState(false);
   const fetchForecast = async (lat, lon) => {
     try {
       const res = await axios.get(`api/weather?lat=${lat}&lon=${lon}`);
@@ -71,6 +71,8 @@ export const GlobalContextProvider = ({ children }) => {
         geoCodedList,
         inputValue,
         handleInput,
+        changedegree,
+        setChangedegree,
       }}
     >
       <GlobalContextUpdate.Provider value={{ setActiveCityCoords }}>

@@ -7,7 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { kelvinToCelsius } from "@/lib/misc";
+import { kelvinToCelsius, kelvinToF } from "@/lib/misc";
 import {
   drizzleIcon,
   rain,
@@ -19,11 +19,13 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { useGlobalContext } from "../context/globalContext";
 function Forecast() {
-  const { fiveDayForecast } = useGlobalContext();
+  const { fiveDayForecast, changedegree } = useGlobalContext();
   const forecast = fiveDayForecast.list;
-  console.log(forecast);
+
   const temp = (item: number) => {
-    return kelvinToCelsius(item);
+    if (changedegree === false) {
+      return kelvinToCelsius(item);
+    } else return kelvinToF(item);
   };
   const changeTime = (item: any) => {
     return (item = new Date(item).toLocaleTimeString([], {
@@ -60,7 +62,12 @@ function Forecast() {
       <Skeleton className="h-[10rem] w-full rounded-xl dark:bg-[#484c53] bg-[#f5d8c5] " />
     );
   return (
-    <Carousel className="w-full max-w-[35rem] flex">
+    <Carousel
+      className="w-full max-w-[35rem] flex ml-0 lg:ml-12"
+      opts={{
+        align: "start",
+      }}
+    >
       <CarouselContent>
         {forecast?.map((item: any, index: any) => (
           <CarouselItem key={index} className="basis-1/2">
@@ -72,11 +79,13 @@ function Forecast() {
                     <span>{getIcon(item.main)}</span>
                   </div>
                   <span className="text-4xl font-bold">
-                    {temp(item.main.temp)}°C
+                    {temp(item.main.temp)}°
                   </span>
                   <div className="flex flex-col items-center">
                     <span>{changeTime(item.dt_txt)}</span>
-                    <span className="capitalize">{item.weather[0].description}</span>
+                    <span className="capitalize">
+                      {item.weather[0].description}
+                    </span>
                   </div>
                 </CardContent>
               </Card>
@@ -84,6 +93,8 @@ function Forecast() {
           </CarouselItem>
         ))}
       </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
     </Carousel>
   );
 }
